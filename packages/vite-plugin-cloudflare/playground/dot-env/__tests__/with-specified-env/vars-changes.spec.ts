@@ -9,15 +9,16 @@ import {
 test.runIf(!isBuild)(
 	"successfully updates when a var is updated in a .env.staging file",
 	async () => {
-		const originalResponseContent = {
-			"variables loaded from .env and .env.staging": {
-				MY_DEV_VAR_A: "my .env staging variable A",
-				MY_DEV_VAR_B: "my .env staging variable B",
-				MY_DEV_VAR_C: "my .env variable C", // Note that unlike .dev.vars, we merge .env files
-			},
-		};
-		const originalResponse = await getJsonResponse();
-		expect(originalResponse).toEqual(originalResponseContent);
+		await vi.waitFor(async () => {
+			const originalResponse = await getJsonResponse();
+			expect(originalResponse).toEqual({
+				"variables loaded from .env and .env.staging": {
+					MY_DEV_VAR_A: "my .env staging variable A",
+					MY_DEV_VAR_B: "my .env staging variable B",
+					MY_DEV_VAR_C: "my .env variable C", // Note that unlike .dev.vars, we merge .env files
+				},
+			});
+		});
 
 		mockFileChange(path.join(__dirname, "../../.env"), (content) =>
 			content.replace(/my \.env/g, "my .env UPDATED")
