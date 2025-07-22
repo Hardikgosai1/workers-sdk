@@ -399,7 +399,12 @@ export default async function deploy(props: Props): Promise<{
 		}
 	}
 
-	if (!(props.compatibilityDate || config.compatibility_date)) {
+	const compatibilityDate =
+		props.compatibilityDate ?? config.compatibility_date;
+	const compatibilityFlags =
+		props.compatibilityFlags ?? config.compatibility_flags;
+
+	if (!compatibilityDate) {
 		const compatibilityDateStr = formatCompatibilityDate(new Date());
 
 		throw new UserError(
@@ -409,7 +414,7 @@ export default async function deploy(props: Props): Promise<{
     \`\`\`
     Or you could pass it in your terminal as \`--compatibility-date ${compatibilityDateStr}\`
 See https://developers.cloudflare.com/workers/platform/compatibility-dates for more information.`,
-			{ telemetryMessage: "missing compatibiltiy date when deploying" }
+			{ telemetryMessage: "missing compatibility date when deploying" }
 		);
 	}
 
@@ -423,10 +428,6 @@ See https://developers.cloudflare.com/workers/platform/compatibility-dates for m
 
 	const minify = props.minify ?? config.minify;
 
-	const compatibilityDate =
-		props.compatibilityDate ?? config.compatibility_date;
-	const compatibilityFlags =
-		props.compatibilityFlags ?? config.compatibility_flags;
 	const nodejsCompatMode = validateNodeCompatMode(
 		compatibilityDate,
 		compatibilityFlags,
@@ -576,6 +577,8 @@ See https://developers.cloudflare.com/workers/platform/compatibility-dates for m
 						keepNames: config.keep_names ?? true,
 						sourcemap: uploadSourceMaps,
 						nodejsCompatMode,
+						compatibilityDate,
+						compatibilityFlags,
 						define: { ...config.define, ...props.defines },
 						checkFetch: false,
 						alias: config.alias,
@@ -585,8 +588,8 @@ See https://developers.cloudflare.com/workers/platform/compatibility-dates for m
 						local: false,
 						projectRoot: props.projectRoot,
 						defineNavigatorUserAgent: isNavigatorDefined(
-							props.compatibilityDate ?? config.compatibility_date,
-							props.compatibilityFlags ?? config.compatibility_flags
+							compatibilityDate,
+							compatibilityFlags
 						),
 						plugins: [logBuildOutput(nodejsCompatMode)],
 
@@ -705,7 +708,7 @@ See https://developers.cloudflare.com/workers/platform/compatibility-dates for m
 			sourceMaps: uploadSourceMaps
 				? loadSourceMaps(main, modules, bundle)
 				: undefined,
-			compatibility_date: props.compatibilityDate ?? config.compatibility_date,
+			compatibility_date: compatibilityDate,
 			compatibility_flags: compatibilityFlags,
 			keepVars,
 			keepSecrets: keepVars, // keepVars implies keepSecrets
