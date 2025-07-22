@@ -1,5 +1,14 @@
 # wrangler
 
+## 3.114.12
+
+### Patch Changes
+
+- [#9973](https://github.com/cloudflare/workers-sdk/pull/9973) [`58c09cf`](https://github.com/cloudflare/workers-sdk/commit/58c09cf06e96ebc78d0f5de1b3483285f6a5558c) Thanks [@penalosa](https://github.com/penalosa)! - Make Wrangler warn more loudly if you're missing auth scopes
+
+- Updated dependencies [[`028f689`](https://github.com/cloudflare/workers-sdk/commit/028f6896dca78901f5b5a36a938667241d501244)]:
+  - miniflare@3.20250408.3
+
 ## 3.114.11
 
 ### Patch Changes
