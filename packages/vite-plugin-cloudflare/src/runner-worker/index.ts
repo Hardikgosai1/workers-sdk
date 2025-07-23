@@ -176,7 +176,11 @@ export function createWorkerEntrypointWrapper(
 						entryPath = viteDevMetadata.entryPath;
 						const { 0: client, 1: server } = new WebSocketPair();
 						webSocket = client;
-						await createModuleRunner(this.env, server);
+						await createModuleRunner(
+							this.env,
+							server,
+							request.headers.get("x") ?? "<undefined>"
+						);
 					} catch (e) {
 						return new Response(
 							e instanceof Error ? e.message : JSON.stringify(e),

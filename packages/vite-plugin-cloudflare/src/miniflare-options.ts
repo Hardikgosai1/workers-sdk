@@ -502,10 +502,14 @@ export async function getDevMiniflareOptions(config: {
 		unsafeDevRegistryPath: getDefaultDevRegistryPath(),
 		handleRuntimeStdio(stdout, stderr) {
 			const decoder = new TextDecoder();
-			stdout.forEach((data) => logger.info(decoder.decode(data)));
-			stderr.forEach((error) =>
-				logger.logWithLevel(LogLevel.ERROR, decoder.decode(error))
-			);
+			stdout.forEach((data) => {
+				logger.info(decoder.decode(data));
+				console.error(decoder.decode(data));
+			});
+			stderr.forEach((error) => {
+				logger.logWithLevel(LogLevel.ERROR, decoder.decode(error));
+				console.error(LogLevel.ERROR, decoder.decode(error));
+			});
 		},
 		defaultPersistRoot: getPersistenceRoot(
 			resolvedViteConfig.root,

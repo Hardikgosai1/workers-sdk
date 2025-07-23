@@ -34,7 +34,7 @@ test.runIf(!isBuild)(
 					},
 				});
 			},
-			{ timeout: 5000 }
+			{ timeout: 5000, interval: 1000 }
 		);
 	}
 );

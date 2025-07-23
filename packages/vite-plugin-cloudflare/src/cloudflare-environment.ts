@@ -88,7 +88,8 @@ export class CloudflareDevEnvironment extends vite.DevEnvironment {
 
 	async initRunner(
 		worker: ReplaceWorkersTypes<Fetcher>,
-		workerConfig: WorkerConfig
+		workerConfig: WorkerConfig,
+		x: string
 	) {
 		this.#worker = worker;
 
@@ -96,6 +97,7 @@ export class CloudflareDevEnvironment extends vite.DevEnvironment {
 			new URL(INIT_PATH, UNKNOWN_HOST),
 			{
 				headers: {
+					x,
 					[VITE_DEV_METADATA_HEADER]: JSON.stringify({
 						entryPath: workerConfig.main,
 					}),
@@ -196,7 +198,8 @@ export function createCloudflareEnvironmentOptions(
 export function initRunners(
 	resolvedPluginConfig: WorkersResolvedConfig,
 	viteDevServer: vite.ViteDevServer,
-	miniflare: Miniflare
+	miniflare: Miniflare,
+	x: string
 ): Promise<void[]> | undefined {
 	return Promise.all(
 		Object.entries(resolvedPluginConfig.workers).map(
@@ -207,7 +210,7 @@ export function initRunners(
 					viteDevServer.environments[
 						environmentName
 					] as CloudflareDevEnvironment
-				).initRunner(worker, workerConfig);
+				).initRunner(worker, workerConfig, x);
 			}
 		)
 	);

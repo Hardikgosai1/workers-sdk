@@ -10,10 +10,17 @@ let moduleRunner: ModuleRunner;
 
 export async function createModuleRunner(
 	env: WrapperEnv,
-	webSocket: WebSocket
+	webSocket: WebSocket,
+	x: string
 ) {
+	console.error("Creating module runner", x);
 	if (moduleRunner) {
-		throw new Error("Runner already initialized");
+		console.error(
+			`Runner already initialized: ${(moduleRunner as any).x} / ${x}!!`
+		);
+		throw new Error(
+			`Runner already initialized: ${(moduleRunner as any).x} / ${x}!!`
+		);
 	}
 
 	const transport = createWebSocketModuleRunnerTransport({
@@ -82,6 +89,9 @@ export async function createModuleRunner(
 			},
 		}
 	);
+
+	(moduleRunner as any).x = x;
+	console.error("Module runner initialized", (moduleRunner as any).x);
 }
 
 export async function getWorkerEntryExport(path: string, entrypoint: string) {

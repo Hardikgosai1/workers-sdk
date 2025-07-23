@@ -1,4 +1,5 @@
 import assert from "node:assert";
+import { randomUUID } from "node:crypto";
 import * as fsp from "node:fs/promises";
 import * as path from "node:path";
 import {
@@ -381,9 +382,12 @@ if (import.meta.hot) {
 					containerBuildId,
 				});
 
+				const x = randomUUID();
 				if (!miniflare) {
+					console.error("Creating new Miniflare instance", x);
 					miniflare = new Miniflare(miniflareDevOptions);
 				} else {
+					console.error("Updating Miniflare instance", x);
 					await miniflare.setOptions(miniflareDevOptions);
 				}
 
@@ -392,7 +396,8 @@ if (import.meta.hot) {
 				if (resolvedPluginConfig.type === "workers") {
 					assert(entryWorkerConfig, `No entry Worker config`);
 
-					await initRunners(resolvedPluginConfig, viteDevServer, miniflare);
+					console.error("Initializing runners", x);
+					await initRunners(resolvedPluginConfig, viteDevServer, miniflare, x);
 
 					const entryWorkerName = entryWorkerConfig.name;
 
