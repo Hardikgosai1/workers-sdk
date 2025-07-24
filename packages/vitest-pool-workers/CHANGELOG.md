@@ -1,5 +1,11 @@
 # @cloudflare/vitest-pool-workers
 
+## 0.8.58
+
+### Patch Changes
+
+- [#10033](https://github.com/cloudflare/workers-sdk/pull/10033) [`f467415`](https://github.com/cloudflare/workers-sdk/commit/f46741512558e2613b6d4f28a947f4cbbb42779b) Thanks [@pombosilva](https://github.com/pombosilva)! - Make vitest-pool-workers not break when a Workflow binding script_name matches its Worker name
+
 ## 0.8.57
 
 ### Patch Changes

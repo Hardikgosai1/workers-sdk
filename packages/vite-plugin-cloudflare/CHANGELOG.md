@@ -1,5 +1,13 @@
 # @cloudflare/vite-plugin
 
+## 1.10.2
+
+### Patch Changes
+
+- [#10040](https://github.com/cloudflare/workers-sdk/pull/10040) [`26ffa05`](https://github.com/cloudflare/workers-sdk/commit/26ffa055cedcec9ac80ec952d7e9c4736ffdb0ee) Thanks [@CarmenPopoviciu](https://github.com/CarmenPopoviciu)! - feat(vite-plugin): Add containers support in `vite preview`
+
+  Adds support for Cloudflare Containers in `vite preview`. Please note that at the time of this PR a container image can only specify the path to a `Dockerfile`. Support for registry links will be added in a later version.
+
 ## 1.10.1
 
 ### Patch Changes
